@@ -76,9 +76,9 @@ $username = text_value($data, 'username');
 $password = (string)($data['password'] ?? '');
 
 $errors = [];
-if ($firstName === '' || strlen($firstName) > 400) $errors['firstName'] = 'Enter a first name up to 100 characters.';
-if (strlen($middleName) > 400) $errors['middleName'] = 'Middle name must be 100 characters or fewer.';
-if ($lastName === '' || strlen($lastName) > 400) $errors['lastName'] = 'Enter a last name up to 100 characters.';
+if ($firstName === '' || strlen($firstName) > 100) $errors['firstName'] = 'Enter a first name up to 100 characters.';
+if (strlen($middleName) > 100) $errors['middleName'] = 'Middle name must be 100 characters or fewer.';
+if ($lastName === '' || strlen($lastName) > 100) $errors['lastName'] = 'Enter a last name up to 100 characters.';
 $date = DateTimeImmutable::createFromFormat('!Y-m-d', $birthdate);
 if (!$date || $date->format('Y-m-d') !== $birthdate || $date > new DateTimeImmutable('today')) $errors['birthdate'] = 'Enter a valid birthdate.';
 if (!in_array($gender, ['Female', 'Male', 'Other'], true)) $errors['gender'] = 'Select a valid gender.';
@@ -86,7 +86,7 @@ if (!in_array($role, ['customer', 'employee'], true)) $errors['role'] = 'Select 
 if ($role === 'employee' && !in_array($department, $allowedDepartments, true)) $errors['department'] = 'Select a valid department.';
 if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 254) $errors['email'] = 'Enter a valid email address.';
 if (!preg_match('/^[0-9+()\s-]{7,32}$/', $phone)) $errors['phone'] = 'Enter a valid phone number.';
-if ($address === '' || strlen($address) > 2000) $errors['address'] = 'Enter an address up to 500 characters.';
+if ($address === '' || strlen($address) > 500) $errors['address'] = 'Enter an address up to 500 characters.';
 if (!preg_match('/^[A-Za-z0-9._-]{3,50}$/', $username)) $errors['username'] = 'Use 3-50 letters, numbers, dots, underscores or hyphens.';
 if (strlen($password) < 8 || strlen($password) > 255) $errors['password'] = 'Password must be at least 8 characters.';
 
@@ -95,25 +95,42 @@ if ($errors) {
 }
 
 try {
-    $statement = database()->prepare(
-        'INSERT INTO users (first_name, middle_name, last_name, birthdate, gender, role, account_status, department, email, phone, address, username, password_hash)
-         VALUES (:first_name, :middle_name, :last_name, :birthdate, :gender, :role, :account_status, :department, :email, :phone, :address, :username, :password_hash)'
+    $connection = database();
+    $connection->beginTransaction();
+
+    $accountStatement = $connection->prepare(
+        'INSERT INTO users (email, username, password_hash, role, account_status)
+         VALUES (:email, :username, :password_hash, :role, :account_status)'
     );
-    $statement->execute([
+    $accountStatement->execute([
+        'email' => $email,
+        'username' => $username,
+        'password_hash' => password_hash($password, PASSWORD_DEFAULT),
+        'role' => $role,
+        'account_status' => $role === 'employee' ? 'pending' : 'active',
+    ]);
+
+    $profileSql = $role === 'employee'
+        ? 'INSERT INTO employees (user_id, first_name, middle_name, last_name, birthdate, gender, department, phone, address)
+           VALUES (:user_id, :first_name, :middle_name, :last_name, :birthdate, :gender, :department, :phone, :address)'
+        : 'INSERT INTO customers (user_id, first_name, middle_name, last_name, birthdate, gender, phone, address)
+           VALUES (:user_id, :first_name, :middle_name, :last_name, :birthdate, :gender, :phone, :address)';
+    $profileStatement = $connection->prepare($profileSql);
+    $profileData = [
+        'user_id' => $connection->lastInsertId(),
         'first_name' => $firstName,
         'middle_name' => $middleName !== '' ? $middleName : null,
         'last_name' => $lastName,
         'birthdate' => $birthdate,
         'gender' => $gender,
-        'role' => $role,
-        'account_status' => $role === 'employee' ? 'pending' : 'active',
-        'department' => $role === 'employee' ? $department : null,
-        'email' => $email,
         'phone' => $phone,
         'address' => $address,
-        'username' => $username,
-        'password_hash' => password_hash($password, PASSWORD_DEFAULT),
-    ]);
+    ];
+    if ($role === 'employee') {
+        $profileData['department'] = $department;
+    }
+    $profileStatement->execute($profileData);
+    $connection->commit();
 
     unset($_SESSION['csrf_token']);
     $message = $role === 'employee'
@@ -121,6 +138,9 @@ try {
         : 'Your account has been created. You can now sign in.';
     respond(201, ['message' => $message]);
 } catch (PDOException $exception) {
+    if (isset($connection) && $connection->inTransaction()) {
+        $connection->rollBack();
+    }
     if ($exception->getCode() === '23000') {
         $isEmail = str_contains(strtolower($exception->getMessage()), 'uq_users_email');
         $field = $isEmail ? 'email' : 'username';

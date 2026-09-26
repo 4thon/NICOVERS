@@ -2,11 +2,11 @@
 
   // ---- Carousel: cards alternate front/back, content cycles through 5 slides ----
   var slides = [
-    { icon:'🔆', title:'Rooftop Solar Installation', caption:'Panels sized and placed for maximum sunlight capture.' },
-    { icon:'⚡', title:'Inverter & Battery Setup', caption:'Reliable power storage for day and night use.' },
-    { icon:'🛠️', title:'On-Site Technician Support', caption:'Trained technicians handle setup, checks, and repairs.' },
-    { icon:'📐', title:'Custom System Design', caption:'Layouts planned around your roof and energy needs.' },
-    { icon:'📊', title:'Live Production Monitoring', caption:'Track energy output and savings in real time.' }
+    { icon:'&#128262;', title:'Rooftop Solar Installation', caption:'Panels sized and placed for maximum sunlight capture.' },
+    { icon:'&#9889;', title:'Inverter & Battery Setup', caption:'Reliable power storage for day and night use.' },
+    { icon:'&#128295;&#65039;', title:'On-Site Technician Support', caption:'Trained technicians handle setup, checks, and repairs.' },
+    { icon:'&#128208;', title:'Custom System Design', caption:'Layouts planned around your roof and energy needs.' },
+    { icon:'&#128202;', title:'Live Production Monitoring', caption:'Track energy output and savings in real time.' }
   ];
   var cardA = document.getElementById('cardA');
   var cardB = document.getElementById('cardB');
@@ -85,6 +85,9 @@
     btn.addEventListener('click', function(){
       var input = document.getElementById(btn.getAttribute('data-target'));
       input.type = input.type === 'password' ? 'text' : 'password';
+      var isVisible = input.type === 'text';
+      btn.setAttribute('aria-label', isVisible ? 'Hide password' : 'Show password');
+      btn.setAttribute('aria-pressed', String(isVisible));
     });
   });
 
@@ -101,7 +104,7 @@
     }
   }
 
-  function validate(){
+  function validate(shouldFocus){
     var ok = true;
     var firstInvalid = null;
 
@@ -146,7 +149,7 @@
     setInvalid(confirm, !confirmValid);
     if(!confirmValid){ ok = false; if(!firstInvalid) firstInvalid = confirm; }
 
-    if(firstInvalid) firstInvalid.focus();
+    if(shouldFocus && firstInvalid) firstInvalid.focus();
     return ok;
   }
 
@@ -154,7 +157,7 @@
   ['firstName','lastName','birthdate','gender','department','email','phone','address','username','password','confirmPassword']
     .forEach(function(id){
       var el = document.getElementById(id);
-      if(el) el.addEventListener('blur', validate);
+      if(el) el.addEventListener('blur', function(){ validate(false); });
     });
 
   document.getElementById('signupForm').addEventListener('submit', async function(e){
@@ -163,7 +166,7 @@
     success.classList.remove('show');
     success.classList.remove('form-error');
     success.textContent = '';
-    if(!validate()) return;
+    if(!validate(true)) return;
 
     var button = document.getElementById('submitBtn');
     button.disabled = true;

@@ -13,7 +13,7 @@
 
   <nav class="navbar">
     <div class="nav-brand">
-      <div class="logo-icon">☀️</div>
+      <div class="logo-icon" aria-hidden="true">&#9728;&#65039;</div>
       <div class="logo-text">Sun Son Solar</div>
     </div>
     <div class="nav-links" id="navLinks">
@@ -26,7 +26,7 @@
 
   <div class="hero-bar">
     <div class="hero-left">
-      <div class="hero-icon">☀️</div>
+      <div class="hero-icon" aria-hidden="true">&#9728;&#65039;</div>
       <div>
         <div class="hero-eyebrow">Sun Son Solar</div>
         <div class="hero-title">Create your account</div>
@@ -43,12 +43,12 @@
     <section class="auth-media">
       <div class="media-stack">
         <div class="media-card primary is-front" id="cardA">
-          <span class="media-icon">🔆</span>
+          <span class="media-icon" aria-hidden="true">&#128262;</span>
           <span class="media-card-title">Rooftop Solar Installation</span>
           <span class="media-card-caption">Panels sized and placed for maximum sunlight capture.</span>
         </div>
         <div class="media-card secondary is-back" id="cardB">
-          <span class="media-icon">⚡</span>
+          <span class="media-icon" aria-hidden="true">&#9889;</span>
           <span class="media-card-title">Inverter &amp; Battery Setup</span>
           <span class="media-card-caption">Reliable power storage for day and night use.</span>
         </div>
@@ -72,30 +72,30 @@
           </div>
           <div class="form-row">
             <div class="input-group">
-              <label class="input-label">First name<span class="req">*</span></label>
-              <input type="text" class="input-field" id="firstName" placeholder="Ada">
+              <label class="input-label" for="firstName">First name<span class="req">*</span></label>
+              <input type="text" class="input-field" id="firstName" name="firstName" autocomplete="given-name" placeholder="Ada">
               <div class="field-error">Please enter your first name.</div>
             </div>
             <div class="input-group">
-              <label class="input-label">Middle name</label>
-              <input type="text" class="input-field" id="middleName" placeholder="Marie">
+              <label class="input-label" for="middleName">Middle name</label>
+              <input type="text" class="input-field" id="middleName" name="middleName" autocomplete="additional-name" placeholder="Marie">
               <div class="field-error"></div>
             </div>
             <div class="input-group">
-              <label class="input-label">Last name<span class="req">*</span></label>
-              <input type="text" class="input-field" id="lastName" placeholder="Lovelace">
+              <label class="input-label" for="lastName">Last name<span class="req">*</span></label>
+              <input type="text" class="input-field" id="lastName" name="lastName" autocomplete="family-name" placeholder="Lovelace">
               <div class="field-error">Please enter your last name.</div>
             </div>
           </div>
           <div class="form-row">
             <div class="input-group">
-              <label class="input-label">Birthdate<span class="req">*</span></label>
-              <input type="date" class="input-field" id="birthdate">
+              <label class="input-label" for="birthdate">Birthdate<span class="req">*</span></label>
+              <input type="date" class="input-field" id="birthdate" name="birthdate" autocomplete="bday">
               <div class="field-error">Please select your birthdate.</div>
             </div>
             <div class="input-group">
-              <label class="input-label">Gender<span class="req">*</span></label>
-              <select class="input-field" id="gender">
+              <label class="input-label" for="gender">Gender<span class="req">*</span></label>
+              <select class="input-field" id="gender" name="gender">
                 <option value="" selected disabled>Select gender</option>
                 <option>Female</option>
                 <option>Male</option>
@@ -113,8 +113,8 @@
             <span class="section-line"></span>
           </div>
           <div class="input-group">
-            <label class="input-label">Department<span class="req">*</span></label>
-            <select class="input-field" id="department">
+            <label class="input-label" for="department">Department<span class="req">*</span></label>
+            <select class="input-field" id="department" name="department">
               <option value="" selected disabled>Select department</option>
               <option>Installation</option>
               <option>Maintenance and Repair</option>
@@ -134,19 +134,19 @@
           </div>
           <div class="form-row">
             <div class="input-group">
-              <label class="input-label">Email address<span class="req">*</span></label>
-              <input type="email" class="input-field" id="email" placeholder="ada@example.com">
+              <label class="input-label" for="email">Email address<span class="req">*</span></label>
+              <input type="email" class="input-field" id="email" name="email" autocomplete="email" placeholder="ada@example.com">
               <div class="field-error">Please enter a valid email address.</div>
             </div>
             <div class="input-group">
-              <label class="input-label">Phone number<span class="req">*</span></label>
-              <input type="tel" class="input-field" id="phone" placeholder="+63 900 000 0000">
+              <label class="input-label" for="phone">Phone number<span class="req">*</span></label>
+              <input type="tel" class="input-field" id="phone" name="phone" autocomplete="tel" placeholder="+63 900 000 0000">
               <div class="field-error">Please enter a valid phone number.</div>
             </div>
           </div>
           <div class="input-group">
-            <label class="input-label">Address<span class="req">*</span></label>
-            <textarea class="input-field" id="address" placeholder="Street, city, province, postal code"></textarea>
+            <label class="input-label" for="address">Address<span class="req">*</span></label>
+            <textarea class="input-field" id="address" name="address" autocomplete="street-address" placeholder="Street, city, province, postal code"></textarea>
             <div class="field-error">Please enter your address.</div>
           </div>
         </div>
@@ -158,16 +158,16 @@
             <span class="section-line"></span>
           </div>
           <div class="input-group">
-            <label class="input-label">Username<span class="req">*</span></label>
-            <input type="text" class="input-field" id="username" placeholder="ada.solar">
+            <label class="input-label" for="username">Username<span class="req">*</span></label>
+            <input type="text" class="input-field" id="username" name="username" autocomplete="username" placeholder="ada.solar">
             <div class="field-error">Please choose a username.</div>
           </div>
           <div class="form-row">
             <div class="input-group">
-              <label class="input-label">Password<span class="req">*</span></label>
+              <label class="input-label" for="password">Password<span class="req">*</span></label>
               <div class="password-field">
-                <input type="password" class="input-field" id="password" placeholder="At least 8 characters">
-                <button type="button" class="toggle-pass" data-target="password" aria-label="Show password">
+                <input type="password" class="input-field" id="password" name="password" autocomplete="new-password" placeholder="At least 8 characters">
+                <button type="button" class="toggle-pass" data-target="password" aria-label="Show password" aria-pressed="false">
                   <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
                     <circle cx="12" cy="12" r="3" />
@@ -177,10 +177,10 @@
               <div class="field-error">Password must be at least 8 characters.</div>
             </div>
             <div class="input-group">
-              <label class="input-label">Confirm password<span class="req">*</span></label>
+              <label class="input-label" for="confirmPassword">Confirm password<span class="req">*</span></label>
               <div class="password-field">
-                <input type="password" class="input-field" id="confirmPassword" placeholder="Re-enter password">
-                <button type="button" class="toggle-pass" data-target="confirmPassword" aria-label="Show password">
+                <input type="password" class="input-field" id="confirmPassword" name="confirmPassword" autocomplete="new-password" placeholder="Re-enter password">
+                <button type="button" class="toggle-pass" data-target="confirmPassword" aria-label="Show password" aria-pressed="false">
                   <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
                     <circle cx="12" cy="12" r="3" />
@@ -193,7 +193,7 @@
         </div>
 
         <button type="submit" class="primary-btn" id="submitBtn">Create customer account</button>
-        <div class="form-success" id="formSuccess">Looks good! All fields are valid. (Preview only — not yet connected to a database.)</div>
+        <div class="form-success" id="formSuccess" role="status" aria-live="polite"></div>
       </form>
 
       <p class="helper-text">Already have an account? <a href="#" class="helper-link">Sign In</a></p>

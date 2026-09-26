@@ -1,19 +1,79 @@
-# Sun Son Solar registration
+# Sun Son Solar Registration System
 
-## Backend layout
+## Overview
 
-- `api/register.php` provides the CSRF token and accepts registration requests.
-- `config/database.php` creates the PDO/MySQL connection from environment variables.
-- `database/schema.sql` creates the database and `users` table.
-- `assets/js/register.js` validates the form and posts to the registration API.
+This project provides a web-based registration form for Sun Son Solar customers and employees. Submitted information is validated in the browser and on the server, then stored in a MySQL database.
 
-The reference ZIP supplied a MySQL connection and a `registration` table example. The implementation keeps its personal/contact data fields, adds account role and employee department, and uses prepared queries plus PHP password hashing. Customer accounts are active after registration; employee accounts are marked pending for approval. No credentials from the reference are required.
+Customer accounts are created with an `active` status. Employee accounts require a department and are created with a `pending` status for approval.
 
-## Run locally
+## Registration Form
 
-1. Install PHP with `pdo_mysql` enabled and MySQL/MariaDB.
-2. Import `database/schema.sql` into MySQL.
-3. Set `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, and `DB_PASSWORD` for the PHP process. Defaults are `127.0.0.1:3306`, database `sun_son_solar`, user `root`, and an empty password for local development.
-4. From this directory, run `php -S 127.0.0.1:8000` and open `http://127.0.0.1:8000/register.html`.
+The registration form collects the following information:
 
-Do not open `register.html` directly with a `file://` URL; the form needs PHP to serve the API and its session cookie. Use a real secret database password outside local development.
+- Personal information: first name, middle name, last name, birthdate, and gender.
+- Employment information: department for employee registrations only.
+- Contact information: email address, phone number, and address.
+- Account information: username, password, and password confirmation.
+
+Available employee departments are Installation, Maintenance and Repair, System Design, Sales and Consultation, and Administration.
+
+## Project Structure
+
+```text
+sun-sun-solar/
+|-- api/
+|   `-- register.php          Registration and CSRF API
+|-- assets/
+|   |-- css/register.css      Registration page styles
+|   `-- js/register.js        Form interaction and client validation
+|-- config/
+|   `-- database.php          PDO database connection
+|-- database/
+|   `-- schema.sql            Database tables and initial sample records
+|-- register.html             Registration page
+`-- README.md                 Project documentation
+```
+
+## Database
+
+The database schema creates three related tables:
+
+- `users` stores common account details: email address, username, password hash, role, account status, and registration timestamp.
+- `customers` stores personal and contact information for customer accounts.
+- `employees` stores personal and contact information, including department, for employee accounts.
+
+Every registration creates one row in `users` and one matching row in either `customers` or `employees`. The schema also creates one initial customer account and one initial employee account for local development.
+
+Passwords are stored only as hashes. Email addresses and usernames are unique.
+
+## Local Setup
+
+1. Install PHP with the `pdo_mysql` extension enabled and install MySQL or MariaDB.
+2. Import `database/schema.sql` into your MySQL server.
+3. Configure the following environment variables when your database uses values different from the local defaults:
+
+   ```text
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_NAME=sun_son_solar
+   DB_USER=root
+   DB_PASSWORD=
+   ```
+
+4. Start the PHP development server from the project directory:
+
+   ```powershell
+   php -S 127.0.0.1:8000
+   ```
+
+5. Open `http://127.0.0.1:8000/register.html` in a browser.
+
+Do not open `register.html` through a `file://` URL because registration requires the PHP API and its session cookie.
+
+## Registration Flow
+
+1. The browser validates the form fields before submission.
+2. The browser requests a CSRF token from `api/register.php`.
+3. The form data and CSRF token are sent to the registration API.
+4. The API validates the request, hashes the password, and inserts the account into `users` plus the matching customer or employee table.
+5. The form displays either a confirmation message or the relevant validation error.
