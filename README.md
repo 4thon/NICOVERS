@@ -96,12 +96,12 @@ The validation function checks the following conditions:
 
 1. The user fills out the form and clicks **Create account**.
 2. The browser runs `validate(true)`. If any field fails, the error message appears inline and the submission stops.
-3. On success, the browser sends a `GET` request to `api/register.php?action=csrf`. The server generates a 32-byte random token, stores it in the PHP session, and returns it as JSON.
-4. The browser then sends a `POST` request to `api/register.php` with the form data as a JSON body and the CSRF token in the `X-CSRF-Token` header.
+3. On success, the browser sends a `GET` request to `/register/csrf`. The controller generates a 32-byte random token, stores it in the CodeIgniter session, and returns it as JSON.
+4. The browser then sends a `POST` request to `/register` with the form data as a JSON body and the CSRF token in the `X-CSRF-Token` header.
 5. The server compares the submitted token against the session value using `hash_equals` (a timing-safe comparison). A mismatch returns `403`.
 6. The server re-runs all validation rules. If any fail, it responds with `422` and a map of field names to error messages.
 7. On success, the server starts a database transaction, inserts the user record with a hashed password (`password_hash` with `PASSWORD_DEFAULT`), and inserts the matching customer or employee profile row. The transaction commits.
-8. The CSRF token is cleared from the session so it cannot be reused.
+8. After a successful registration, the CSRF token is cleared from the session so it cannot be reused.
 9. The browser displays the success message and resets the form.
 
 ## CSRF Protection
@@ -110,7 +110,7 @@ Every registration submission requires a token issued by the same session. The s
 
 ## Database
 
-The schema (`database/schema.sql`) creates three tables:
+The schema (`app/Database/Schema/schema.sql`) creates three tables:
 
 - **`users`** — a shared account table holding email, username, password hash, role, account status, and a creation timestamp. Email and username each have a unique constraint.
 - **`customers`** — personal and contact details linked to `users` via a foreign key.
@@ -132,7 +132,13 @@ Email addresses and usernames are unique. Passwords are never stored in plaintex
    php spark migrate
    ```
 
-4. Open `http://localhost/Regis/public/`.
+4. Add the provided client employee entries to the local database:
+
+   ```bash
+   php spark db:seed ClientEmployeeSeeder
+   ```
+
+5. Open `http://localhost/Regis/public/`.
 
 Do not open the view file directly through a `file://` URL. The registration flow requires CodeIgniter, the database connection, and the session cookie.
 

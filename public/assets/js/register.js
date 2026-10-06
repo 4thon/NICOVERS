@@ -1,12 +1,14 @@
   var currentRole = 'customer';
 
   // ---- Carousel: cards alternate front/back, content cycles through 5 slides ----
+  var carouselImages = window.SOLAR_CAROUSEL_IMAGES || {};
   var slides = [
-    { icon:'&#128262;', title:'Rooftop Solar Installation', caption:'Panels sized and placed for maximum sunlight capture.' },
-    { icon:'&#9889;', title:'Inverter & Battery Setup', caption:'Reliable power storage for day and night use.' },
-    { icon:'&#128295;&#65039;', title:'On-Site Technician Support', caption:'Trained technicians handle setup, checks, and repairs.' },
-    { icon:'&#128208;', title:'Custom System Design', caption:'Layouts planned around your roof and energy needs.' },
-    { icon:'&#128202;', title:'Live Production Monitoring', caption:'Track energy output and savings in real time.' }
+    { icon:'&#128262;', title:'Rooftop Solar Installation', caption:'Panels sized and placed for maximum sunlight capture.', image:carouselImages.rooftop },
+    { icon:'&#9889;', title:'Inverter & Battery Setup', caption:'Reliable power storage for day and night use.', image:carouselImages.installation },
+    { icon:'&#128295;&#65039;', title:'On-Site Technician Support', caption:'Trained technicians handle setup, checks, and repairs.', image:carouselImages.technician },
+    { icon:'&#128208;', title:'Custom System Design', caption:'Layouts planned around your roof and energy needs.', image:carouselImages.rooftop },
+    { icon:'&#128202;', title:'Live Production Monitoring', caption:'Track energy output and savings in real time.', image:carouselImages.installation },
+    { icon:'&#128161;', title:'Energy Consultation', caption:'Clear guidance before you choose a solar system.', image:carouselImages.technician }
   ];
   var cardA = document.getElementById('cardA');
   var cardB = document.getElementById('cardB');
@@ -15,6 +17,7 @@
   var aIsFront = true;
 
   function fillCard(card, slide){
+    card.style.setProperty('--card-image', slide.image ? 'url("' + slide.image + '")' : 'none');
     card.innerHTML = '<span class="media-icon">' + slide.icon + '</span>' +
       '<span class="media-card-title">' + slide.title + '</span>' +
       '<span class="media-card-caption">' + slide.caption + '</span>';
@@ -49,20 +52,46 @@
     });
   });
 
-  // ---- Hero parallax ----
-  var heroImage = document.querySelector('.solar-hero-image');
+  // ---- Subtle media parallax ----
+  var mediaStack = document.querySelector('.media-stack');
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(heroImage && !reduceMotion){
+  if(mediaStack && !reduceMotion){
     var parallaxQueued = false;
     window.addEventListener('scroll', function(){
       if(parallaxQueued) return;
       parallaxQueued = true;
       window.requestAnimationFrame(function(){
-        var offset = Math.min(window.scrollY * 0.08, 48);
-        heroImage.style.transform = 'scale(1.06) translate3d(0, ' + offset + 'px, 0)';
+        var offset = Math.min(window.scrollY * 0.025, 16);
+        mediaStack.style.transform = 'translate3d(0, ' + offset + 'px, 0)';
         parallaxQueued = false;
       });
     }, { passive: true });
+  }
+
+  // ---- Preloader ----
+  var preloader = document.getElementById('pagePreloader');
+  function hidePreloader(){
+    if(!preloader) return;
+    preloader.classList.add('is-hidden');
+    window.setTimeout(function(){ preloader.remove(); }, 500);
+  }
+  window.addEventListener('load', function(){ window.setTimeout(hidePreloader, 250); });
+
+  // ---- Scroll reveal ----
+  var revealElements = document.querySelectorAll('[data-reveal]');
+  if(!reduceMotion && 'IntersectionObserver' in window){
+    revealElements.forEach(function(element){ element.classList.add('reveal-ready'); });
+    var revealObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.12 });
+    revealElements.forEach(function(element){ revealObserver.observe(element); });
+  } else {
+    revealElements.forEach(function(element){ element.classList.add('is-visible'); });
   }
 
   // ---- Role toggle ----

@@ -7,82 +7,69 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="<?= base_url('assets/css/tokens.css') ?>" />
-  <link rel="stylesheet" href="<?= base_url('assets/css/register.css') ?>" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="<?= base_url('assets/css/register.css') ?>" />
 </head>
 <body>
+  <div class="page-preloader" id="pagePreloader" role="status" aria-live="polite">
+    <div class="preloader-content">
+      <div class="spinner-border" aria-hidden="true"></div>
+      <span>Sun Son Solar</span>
+    </div>
+  </div>
+
   <nav class="navbar">
-    <a class="nav-brand" href="#home" aria-label="Sun Son Solar home">
-      <span class="logo-icon" aria-hidden="true">&#9728;</span>
-      <span class="logo-text">Sun Son Solar</span>
-    </a>
+    <div class="nav-brand">
+      <div class="logo-icon" aria-hidden="true">&#9728;&#65039;</div>
+      <div class="logo-text">Sun Son Solar</div>
+    </div>
     <div class="nav-links" id="navLinks">
-      <a href="#services" data-nav>Services</a>
-      <a href="#registration" data-nav>Register</a>
-      <a href="#contact" data-nav>Contact</a>
+      <a href="#" data-nav>Products</a>
+      <a href="#" data-nav>About</a>
+      <a href="#" data-nav>Contacts</a>
+      <a href="#" data-nav>Sign In</a>
     </div>
   </nav>
 
-  <header class="solar-hero" id="home">
-    <div class="solar-hero-image" aria-hidden="true"></div>
-    <div class="solar-hero-shade" aria-hidden="true"></div>
-    <div class="sunrise" aria-hidden="true">
-      <span class="sunrise-glow"></span>
-      <span class="sunrise-orb"></span>
+  <div class="hero-bar" data-reveal>
+    <div class="hero-left">
+      <div class="hero-icon" aria-hidden="true">&#9728;&#65039;</div>
+      <div>
+        <div class="hero-eyebrow">Sun Son Solar</div>
+        <div class="hero-title">Create your account</div>
+        <div class="hero-subtitle">Join the team powering a brighter tomorrow.</div>
+      </div>
     </div>
-    <div class="hero-content">
-      <p class="hero-kicker">Cleaner power for every tomorrow</p>
-      <h1>Sun Son Solar</h1>
-      <p class="hero-lead">A brighter way to power homes, teams, and the future.</p>
-      <a class="hero-cta" href="#registration">Create your account <span aria-hidden="true">&#8595;</span></a>
-    </div>
-    <div class="hero-scroll-cue" aria-hidden="true">
-      <span></span>
-      Scroll to register
-    </div>
-  </header>
-
-  <section class="registration-intro" id="registration">
-    <div class="registration-intro-copy">
-      <p class="eyebrow">Get started</p>
-      <h2>Your solar journey starts here.</h2>
-      <p>Choose the account that fits you. Customer accounts are ready to use after registration; employee accounts are reviewed by the Sun Son Solar team.</p>
-    </div>
-    <div class="role-toggle" id="roleToggle" aria-label="Account type">
+    <div class="role-toggle" id="roleToggle">
       <button type="button" class="active" data-role="customer">Customer</button>
       <button type="button" data-role="employee">Employee</button>
     </div>
-  </section>
+  </div>
 
   <main class="auth">
-    <section class="auth-media" id="services">
-      <div class="media-photo">
-        <img src="<?= base_url('assets/images/solar-rooftop-sunrise.jpg') ?>" alt="Solar panels installed on a rooftop at sunrise" />
-        <div class="media-photo-badge"><span aria-hidden="true">&#9889;</span> Solar made simple</div>
-      </div>
+    <section class="auth-media" data-reveal>
       <div class="media-stack">
-        <div class="media-card primary is-front" id="cardA">
+        <div class="media-card primary is-front" id="cardA" style="--card-image:url('<?= base_url('assets/images/solar-rooftop-sunrise.jpg') ?>');">
           <span class="media-icon" aria-hidden="true">&#128262;</span>
           <span class="media-card-title">Rooftop Solar Installation</span>
           <span class="media-card-caption">Panels sized and placed for maximum sunlight capture.</span>
         </div>
-        <div class="media-card secondary is-back" id="cardB">
+        <div class="media-card secondary is-back" id="cardB" style="--card-image:url('<?= base_url('assets/images/solar-installation.jpg') ?>');">
           <span class="media-icon" aria-hidden="true">&#9889;</span>
           <span class="media-card-title">Inverter &amp; Battery Setup</span>
           <span class="media-card-caption">Reliable power storage for day and night use.</span>
         </div>
       </div>
-      <p class="media-title">Energy that feels <span>effortless.</span></p>
-      <p class="media-caption">From planning and installation to aftercare, Sun Son Solar brings every step of clean energy together.</p>
+      <p class="media-title">Powering Homes with <span>Solar</span></p>
+      <p class="media-caption">From panels to permitting, Sun Son Solar handles every step of your clean energy project.</p>
       <div class="media-dots" id="mediaDots">
-        <span class="on"></span><span></span><span></span><span></span><span></span>
+        <span class="on"></span><span></span><span></span><span></span><span></span><span></span>
       </div>
     </section>
 
     <section>
-      <form class="auth-form" id="signupForm" novalidate>
+      <form class="auth-form" id="signupForm" novalidate data-reveal>
         <h1 class="form-title" id="formTitle">Customer Registration</h1>
-        <p class="form-intro">Complete your details below. Fields marked with <span class="req">*</span> are required.</p>
 
         <div class="form-section">
           <div class="section-header">
@@ -93,17 +80,17 @@
           <div class="form-row">
             <div class="input-group">
               <label class="input-label" for="firstName">First name<span class="req">*</span></label>
-              <input type="text" class="input-field" id="firstName" name="firstName" autocomplete="given-name" placeholder="Ada">
+              <input type="text" class="input-field" id="firstName" name="firstName" autocomplete="given-name" placeholder="Katherine">
               <div class="field-error">Please enter your first name.</div>
             </div>
             <div class="input-group">
               <label class="input-label" for="middleName">Middle name</label>
-              <input type="text" class="input-field" id="middleName" name="middleName" autocomplete="additional-name" placeholder="Marie">
+              <input type="text" class="input-field" id="middleName" name="middleName" autocomplete="additional-name" placeholder="Optional">
               <div class="field-error"></div>
             </div>
             <div class="input-group">
               <label class="input-label" for="lastName">Last name<span class="req">*</span></label>
-              <input type="text" class="input-field" id="lastName" name="lastName" autocomplete="family-name" placeholder="Lovelace">
+              <input type="text" class="input-field" id="lastName" name="lastName" autocomplete="family-name" placeholder="Sinagaraw">
               <div class="field-error">Please enter your last name.</div>
             </div>
           </div>
@@ -157,7 +144,7 @@
           <div class="form-row">
             <div class="input-group">
               <label class="input-label" for="email">Email address<span class="req">*</span></label>
-              <input type="email" class="input-field" id="email" name="email" autocomplete="email" placeholder="ada@example.com">
+              <input type="email" class="input-field" id="email" name="email" autocomplete="email" placeholder="katherine.sinagaraw@sunsonsolar.com">
               <div class="field-error">Please enter a valid email address.</div>
             </div>
             <div class="input-group">
@@ -168,7 +155,7 @@
           </div>
           <div class="input-group">
             <label class="input-label" for="address">Address<span class="req">*</span></label>
-            <textarea class="input-field" id="address" name="address" autocomplete="street-address" placeholder="Street, city, province, postal code"></textarea>
+            <textarea class="input-field" id="address" name="address" autocomplete="street-address" placeholder="Sun Son Solar office, city, province"></textarea>
             <div class="field-error">Please enter your address.</div>
           </div>
         </div>
@@ -181,14 +168,14 @@
           </div>
           <div class="input-group">
             <label class="input-label" for="username">Username<span class="req">*</span></label>
-            <input type="text" class="input-field" id="username" name="username" autocomplete="username" placeholder="ada.solar">
+            <input type="text" class="input-field" id="username" name="username" autocomplete="username" placeholder="katherine.sinagaraw">
             <div class="field-error">Please choose a username.</div>
           </div>
           <div class="form-row">
             <div class="input-group">
               <label class="input-label" for="password">Password<span class="req">*</span></label>
               <div class="password-field">
-                <input type="password" class="input-field" id="password" name="password" autocomplete="new-password" placeholder="At least 8 characters">
+                <input type="password" class="input-field" id="password" name="password" autocomplete="new-password" placeholder="Create a secure password">
                 <button type="button" class="toggle-pass" data-target="password" aria-label="Show password" aria-pressed="false">
                   <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
@@ -201,7 +188,7 @@
             <div class="input-group">
               <label class="input-label" for="confirmPassword">Confirm password<span class="req">*</span></label>
               <div class="password-field">
-                <input type="password" class="input-field" id="confirmPassword" name="confirmPassword" autocomplete="new-password" placeholder="Re-enter password">
+                <input type="password" class="input-field" id="confirmPassword" name="confirmPassword" autocomplete="new-password" placeholder="Confirm your password">
                 <button type="button" class="toggle-pass" data-target="confirmPassword" aria-label="Show password" aria-pressed="false">
                   <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
@@ -218,14 +205,33 @@
         <div class="form-success" id="formSuccess" role="status" aria-live="polite"></div>
       </form>
 
-      <p class="helper-text" id="contact">Need help with registration? <a href="tel:09291230983" class="helper-link">Call 09291230983</a></p>
+      <p class="helper-text">Already have an account? <a href="#" class="helper-link">Sign In</a></p>
     </section>
   </main>
+
+  <footer class="site-footer" data-reveal>
+    <div class="footer-brand">
+      <span class="footer-mark" aria-hidden="true">&#9728;</span>
+      <div>
+        <strong>Sun Son Solar</strong>
+        <p>Reliable solar solutions for homes and teams.</p>
+      </div>
+    </div>
+    <div class="footer-meta">
+      <a href="tel:09291230983">09291230983</a>
+      <span>Clean energy, built to last.</span>
+    </div>
+  </footer>
 
   <script>
     window.REGISTER_ENDPOINTS = {
       csrf: "<?= site_url('register/csrf') ?>",
       submit: "<?= site_url('register') ?>"
+    };
+    window.SOLAR_CAROUSEL_IMAGES = {
+      rooftop: "<?= base_url('assets/images/solar-rooftop-sunrise.jpg') ?>",
+      installation: "<?= base_url('assets/images/solar-installation.jpg') ?>",
+      technician: "<?= base_url('assets/images/solar-technician.jpg') ?>"
     };
   </script>
   <script src="<?= base_url('assets/js/register.js') ?>"></script>
