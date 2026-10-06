@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project implements a web-based registration form for Sun Son Solar. Users can register as either a customer or an employee. The form performs client-side validation before submission, then forwards the data to a PHP endpoint that re-validates everything server-side before writing to a MySQL database.
+This project implements a CodeIgniter 4 web-based registration form for Sun Son Solar. Users can register as either a customer or an employee. The form performs client-side validation before submission, then forwards the data to a CodeIgniter controller that re-validates everything server-side before writing to a MySQL database.
 
 Customer accounts are created with an `active` status immediately. Employee accounts go into a `pending` state because they require departmental assignment and administrative approval.
 
@@ -10,21 +10,27 @@ Customer accounts are created with an `active` status immediately. Employee acco
 
 ```text
 .
-|-- api/
-|   `-- register.php          Registration endpoint (CSRF issuance, POST handler)
-|-- assets/
-|   |-- css/register.css      Registration page styles
-|   `-- js/register.js        Form interaction, live validation, submission
-|-- config/
-|   `-- database.php          Shared PDO connection factory
-|-- database/
-|   `-- schema.sql            Schema definitions and seed records
-|-- register.html             Registration page (entry point)
+|-- app/
+|   |-- Controllers/Register.php
+|   |-- Database/Migrations/
+|   |-- Database/Schema/schema.sql
+|   |-- Models/
+|   `-- Views/register.php
+|-- public/
+|   |-- assets/css/register.css
+|   |-- assets/js/register.js
+|   `-- index.php
+|-- system/                   CodeIgniter framework files
+|-- writable/                 Runtime cache, logs, and sessions
+|-- _legacy_standalone/       Previous non-CodeIgniter implementation
+|-- .env                      Local CodeIgniter environment settings
+|-- composer.json
+|-- spark
 |-- .gitignore
 `-- README.md
 ```
 
-The `register.html` file lives at the repository root so it can be served directly by GitHub Pages at `https://USERNAME.github.io/REPO/`. Static assets (CSS, JS) and the PHP API endpoint use relative paths from the root, so no configuration is needed for a static preview.
+The active entry point is now CodeIgniter's `public/index.php`. In XAMPP, open `http://localhost/Regis/public/` or `http://localhost/Regis/public/register`.
 
 ## Registration Form
 
