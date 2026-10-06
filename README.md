@@ -1,5 +1,13 @@
 # Sun Son Solar Registration System
 
+DEVELOPED BY: NICOVERS
+
+Sarmiento Antonio Miguel - Frontend 
+Pascual, Kyle Jimfred - Backend
+Pacheco, Janah - Documentation
+Caber, Joseph Benedict - Data Analyst
+
+
 ## Overview
 
 This project implements a CodeIgniter 4 web-based registration form for Sun Son Solar. Users can register as either a customer or an employee. The form performs client-side validation before submission, then forwards the data to a CodeIgniter controller that re-validates everything server-side before writing to a MySQL database.
@@ -52,7 +60,7 @@ A role toggle in the page header switches between Customer and Employee. The Emp
 | Last name | text | yes | non-empty, max 100 chars |
 | Birthdate | date | yes | valid past date in `YYYY-MM-DD` format |
 | Gender | select | yes | one of Female, Male, Other |
-| Department | select | yes (employees only) | one of Installation, Maintenance and Repair, System Design, Sales and Consultation, Administration |
+| Department | select | yes (employees only) | one of Administration, IT, Despatch, Accounting, HR, Marketing Sales, Customer Service |
 | Email address | email | yes | valid email format, max 254 chars, lowercased on the server |
 | Phone number | tel | yes | digits, `+`, `-`, spaces, parentheses; minimum 7 characters |
 | Address | textarea | yes | non-empty, max 500 characters |
@@ -108,7 +116,7 @@ The schema (`database/schema.sql`) creates three tables:
 - **`customers`** — personal and contact details linked to `users` via a foreign key.
 - **`employees`** — personal and contact details plus a department column, also linked to `users`.
 
-The employee table's `department` column is an `ENUM` that mirrors the five options in the dropdown. A foreign key with `ON DELETE CASCADE` ensures profile rows are removed when the parent user row is deleted.
+The employee table's `department` column is an `ENUM` that mirrors the seven options in the dropdown: Administration, IT, Despatch, Accounting, HR, Marketing Sales, and Customer Service. A foreign key with `ON DELETE CASCADE` ensures profile rows are removed when the parent user row is deleted.
 
 The schema also seeds two demo accounts — one customer and one employee — so the database is immediately usable for local development.
 
@@ -116,32 +124,17 @@ Email addresses and usernames are unique. Passwords are never stored in plaintex
 
 ## Local Setup
 
-1. Install PHP with the `pdo_mysql` extension and run a local MySQL or MariaDB instance.
-2. Import the schema:
+1. Start Apache and MySQL from the XAMPP Control Panel.
+2. Create a `.env` file with the local database settings for `sun_son_solar`.
+3. Run the CodeIgniter migrations from the project root:
 
    ```bash
-   mysql -u root -p < database/schema.sql
+   php spark migrate
    ```
 
-3. Set the environment variables if your database differs from the defaults:
+4. Open `http://localhost/Regis/public/`.
 
-   ```text
-   DB_HOST=127.0.0.1
-   DB_PORT=3306
-   DB_NAME=sun_son_solar
-   DB_USER=root
-   DB_PASSWORD=
-   ```
-
-4. Start the built-in PHP server from the project root:
-
-   ```bash
-   php -S 127.0.0.1:8000
-   ```
-
-5. Visit `http://127.0.0.1:8000/register.html`.
-
-Opening `register.html` via a `file://` URL will not work. The registration flow depends on the PHP session and its cookie, which require a local server.
+Do not open the view file directly through a `file://` URL. The registration flow requires CodeIgniter, the database connection, and the session cookie.
 
 ## Error Handling
 

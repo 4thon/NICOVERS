@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS employees (
   last_name VARCHAR(100) NOT NULL,
   birthdate DATE NOT NULL,
   gender ENUM('Female', 'Male', 'Other') NOT NULL,
-  department ENUM('Installation', 'Maintenance and Repair', 'System Design', 'Sales and Consultation', 'Administration') NOT NULL,
+  department ENUM('Administration', 'IT', 'Despatch', 'Accounting', 'HR', 'Marketing Sales', 'Customer Service') NOT NULL,
   phone VARCHAR(32) NOT NULL,
   address VARCHAR(500) NOT NULL,
   PRIMARY KEY (id),

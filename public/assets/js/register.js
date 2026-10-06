@@ -43,11 +43,27 @@
   // ---- Nav active indicator ----
   document.querySelectorAll('[data-nav]').forEach(function(link){
     link.addEventListener('click', function(e){
-      e.preventDefault();
+      if(link.getAttribute('href') === '#') e.preventDefault();
       document.querySelectorAll('[data-nav]').forEach(function(l){ l.classList.remove('active'); });
       link.classList.add('active');
     });
   });
+
+  // ---- Hero parallax ----
+  var heroImage = document.querySelector('.solar-hero-image');
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(heroImage && !reduceMotion){
+    var parallaxQueued = false;
+    window.addEventListener('scroll', function(){
+      if(parallaxQueued) return;
+      parallaxQueued = true;
+      window.requestAnimationFrame(function(){
+        var offset = Math.min(window.scrollY * 0.08, 48);
+        heroImage.style.transform = 'scale(1.06) translate3d(0, ' + offset + 'px, 0)';
+        parallaxQueued = false;
+      });
+    }, { passive: true });
+  }
 
   // ---- Role toggle ----
   var deptSection = document.getElementById('deptSection');

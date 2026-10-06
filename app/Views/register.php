@@ -11,37 +11,55 @@
   <link rel="stylesheet" href="<?= base_url('assets/css/register.css') ?>" />
 </head>
 <body>
-
   <nav class="navbar">
-    <div class="nav-brand">
-      <div class="logo-icon" aria-hidden="true">&#9728;&#65039;</div>
-      <div class="logo-text">Sun Son Solar</div>
-    </div>
+    <a class="nav-brand" href="#home" aria-label="Sun Son Solar home">
+      <span class="logo-icon" aria-hidden="true">&#9728;</span>
+      <span class="logo-text">Sun Son Solar</span>
+    </a>
     <div class="nav-links" id="navLinks">
-      <a href="#" data-nav>Products</a>
-      <a href="#" data-nav>About</a>
-      <a href="#" data-nav>Contacts</a>
-      <a href="#" data-nav>Sign In</a>
+      <a href="#services" data-nav>Services</a>
+      <a href="#registration" data-nav>Register</a>
+      <a href="#contact" data-nav>Contact</a>
     </div>
   </nav>
 
-  <div class="hero-bar">
-    <div class="hero-left">
-      <div class="hero-icon" aria-hidden="true">&#9728;&#65039;</div>
-      <div>
-        <div class="hero-eyebrow">Sun Son Solar</div>
-        <div class="hero-title">Create your account</div>
-        <div class="hero-subtitle">Join the team powering a brighter tomorrow.</div>
-      </div>
+  <header class="solar-hero" id="home">
+    <div class="solar-hero-image" aria-hidden="true"></div>
+    <div class="solar-hero-shade" aria-hidden="true"></div>
+    <div class="sunrise" aria-hidden="true">
+      <span class="sunrise-glow"></span>
+      <span class="sunrise-orb"></span>
     </div>
-    <div class="role-toggle" id="roleToggle">
+    <div class="hero-content">
+      <p class="hero-kicker">Cleaner power for every tomorrow</p>
+      <h1>Sun Son Solar</h1>
+      <p class="hero-lead">A brighter way to power homes, teams, and the future.</p>
+      <a class="hero-cta" href="#registration">Create your account <span aria-hidden="true">&#8595;</span></a>
+    </div>
+    <div class="hero-scroll-cue" aria-hidden="true">
+      <span></span>
+      Scroll to register
+    </div>
+  </header>
+
+  <section class="registration-intro" id="registration">
+    <div class="registration-intro-copy">
+      <p class="eyebrow">Get started</p>
+      <h2>Your solar journey starts here.</h2>
+      <p>Choose the account that fits you. Customer accounts are ready to use after registration; employee accounts are reviewed by the Sun Son Solar team.</p>
+    </div>
+    <div class="role-toggle" id="roleToggle" aria-label="Account type">
       <button type="button" class="active" data-role="customer">Customer</button>
       <button type="button" data-role="employee">Employee</button>
     </div>
-  </div>
+  </section>
 
   <main class="auth">
-    <section class="auth-media">
+    <section class="auth-media" id="services">
+      <div class="media-photo">
+        <img src="<?= base_url('assets/images/solar-rooftop-sunrise.jpg') ?>" alt="Solar panels installed on a rooftop at sunrise" />
+        <div class="media-photo-badge"><span aria-hidden="true">&#9889;</span> Solar made simple</div>
+      </div>
       <div class="media-stack">
         <div class="media-card primary is-front" id="cardA">
           <span class="media-icon" aria-hidden="true">&#128262;</span>
@@ -54,8 +72,8 @@
           <span class="media-card-caption">Reliable power storage for day and night use.</span>
         </div>
       </div>
-      <p class="media-title">Powering Homes with <span>Solar</span></p>
-      <p class="media-caption">From panels to permitting, Sun Son Solar handles every step of your clean energy project.</p>
+      <p class="media-title">Energy that feels <span>effortless.</span></p>
+      <p class="media-caption">From planning and installation to aftercare, Sun Son Solar brings every step of clean energy together.</p>
       <div class="media-dots" id="mediaDots">
         <span class="on"></span><span></span><span></span><span></span><span></span>
       </div>
@@ -64,6 +82,7 @@
     <section>
       <form class="auth-form" id="signupForm" novalidate>
         <h1 class="form-title" id="formTitle">Customer Registration</h1>
+        <p class="form-intro">Complete your details below. Fields marked with <span class="req">*</span> are required.</p>
 
         <div class="form-section">
           <div class="section-header">
@@ -117,11 +136,13 @@
             <label class="input-label" for="department">Department<span class="req">*</span></label>
             <select class="input-field" id="department" name="department">
               <option value="" selected disabled>Select department</option>
-              <option>Installation</option>
-              <option>Maintenance and Repair</option>
-              <option>System Design</option>
-              <option>Sales and Consultation</option>
               <option>Administration</option>
+              <option>IT</option>
+              <option>Despatch</option>
+              <option>Accounting</option>
+              <option>HR</option>
+              <option>Marketing Sales</option>
+              <option>Customer Service</option>
             </select>
             <div class="field-error">Please select a department.</div>
           </div>
@@ -141,7 +162,7 @@
             </div>
             <div class="input-group">
               <label class="input-label" for="phone">Phone number<span class="req">*</span></label>
-              <input type="tel" class="input-field" id="phone" name="phone" autocomplete="tel" placeholder="+63 900 000 0000">
+              <input type="tel" class="input-field" id="phone" name="phone" autocomplete="tel" placeholder="09291230983">
               <div class="field-error">Please enter a valid phone number.</div>
             </div>
           </div>
@@ -197,7 +218,7 @@
         <div class="form-success" id="formSuccess" role="status" aria-live="polite"></div>
       </form>
 
-      <p class="helper-text">Already have an account? <a href="#" class="helper-link">Sign In</a></p>
+      <p class="helper-text" id="contact">Need help with registration? <a href="tel:09291230983" class="helper-link">Call 09291230983</a></p>
     </section>
   </main>
 

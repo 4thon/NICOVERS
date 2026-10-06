@@ -11,11 +11,13 @@ use Throwable;
 class Register extends BaseController
 {
     private const DEPARTMENTS = [
-        'Installation',
-        'Maintenance and Repair',
-        'System Design',
-        'Sales and Consultation',
         'Administration',
+        'IT',
+        'Despatch',
+        'Accounting',
+        'HR',
+        'Marketing Sales',
+        'Customer Service',
     ];
 
     public function index(): string
