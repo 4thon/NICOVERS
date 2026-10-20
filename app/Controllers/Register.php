@@ -3,23 +3,12 @@
 namespace App\Controllers;
 
 use App\Models\CustomerModel;
-use App\Models\EmployeeModel;
 use App\Models\UserModel;
 use DateTimeImmutable;
 use Throwable;
 
 class Register extends BaseController
 {
-    private const DEPARTMENTS = [
-        'Administration',
-        'IT',
-        'Despatch',
-        'Accounting',
-        'HR',
-        'Marketing Sales',
-        'Customer Service',
-    ];
-
     public function index(): string
     {
         helper('url');
@@ -85,8 +74,8 @@ class Register extends BaseController
                 'email' => $clean['email'],
                 'username' => $clean['username'],
                 'password_hash' => password_hash($clean['password'], PASSWORD_DEFAULT),
-                'role' => $clean['role'],
-                'account_status' => $clean['role'] === 'employee' ? 'pending' : 'active',
+                'role' => 'customer',
+                'account_status' => 'active',
             ], true);
 
             $profile = [
@@ -100,12 +89,7 @@ class Register extends BaseController
                 'address' => $clean['address'],
             ];
 
-            if ($clean['role'] === 'employee') {
-                $profile['department'] = $clean['department'];
-                (new EmployeeModel())->insert($profile);
-            } else {
-                (new CustomerModel())->insert($profile);
-            }
+            (new CustomerModel())->insert($profile);
 
             $db->transComplete();
 
@@ -123,13 +107,9 @@ class Register extends BaseController
 
         $session->remove('registration_csrf_token');
 
-        $message = $clean['role'] === 'employee'
-            ? 'Your employee registration was submitted for approval.'
-            : 'Your account has been created. You can now sign in.';
-
         return $this->response
             ->setStatusCode(201)
-            ->setJSON(['message' => $message]);
+            ->setJSON(['message' => 'Your customer account has been created. You can now sign in.']);
     }
 
     private function cleanInput(array $data): array
@@ -140,8 +120,6 @@ class Register extends BaseController
             'lastName' => $this->textValue($data, 'lastName'),
             'birthdate' => $this->textValue($data, 'birthdate'),
             'gender' => $this->textValue($data, 'gender'),
-            'role' => $this->textValue($data, 'role'),
-            'department' => $this->textValue($data, 'department'),
             'email' => strtolower($this->textValue($data, 'email')),
             'phone' => $this->textValue($data, 'phone'),
             'address' => $this->textValue($data, 'address'),
@@ -173,14 +151,6 @@ class Register extends BaseController
 
         if (! in_array($data['gender'], ['Female', 'Male', 'Other'], true)) {
             $errors['gender'] = 'Select a valid gender.';
-        }
-
-        if (! in_array($data['role'], ['customer', 'employee'], true)) {
-            $errors['role'] = 'Select a valid account type.';
-        }
-
-        if ($data['role'] === 'employee' && ! in_array($data['department'], self::DEPARTMENTS, true)) {
-            $errors['department'] = 'Select a valid department.';
         }
 
         if (! filter_var($data['email'], FILTER_VALIDATE_EMAIL) || strlen($data['email']) > 254) {

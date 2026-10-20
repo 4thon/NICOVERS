@@ -24,10 +24,10 @@
       <div class="logo-text">Sun Son Solar</div>
     </div>
     <div class="nav-links" id="navLinks">
-      <a href="#" data-nav>Products</a>
-      <a href="#" data-nav>About</a>
-      <a href="#" data-nav>Contacts</a>
-      <a href="#" data-nav>Sign In</a>
+      <a href="<?= site_url('/') ?>#services" data-nav>Services</a>
+      <a href="<?= site_url('/') ?>#about" data-nav>About</a>
+      <a href="<?= site_url('/') ?>#contact" data-nav>Contact</a>
+      <a href="<?= site_url('login') ?>" data-nav>Sign In</a>
     </div>
   </nav>
 
@@ -40,10 +40,7 @@
         <div class="hero-subtitle">Join the team powering a brighter tomorrow.</div>
       </div>
     </div>
-    <div class="role-toggle" id="roleToggle">
-      <button type="button" class="active" data-role="customer">Customer</button>
-      <button type="button" data-role="employee">Employee</button>
-    </div>
+    <p class="customer-access">Customer account registration</p>
   </div>
 
   <main class="auth">
@@ -110,28 +107,6 @@
               </select>
               <div class="field-error">Please select a gender.</div>
             </div>
-          </div>
-        </div>
-
-        <div class="form-section dept-section" id="deptSection">
-          <div class="section-header">
-            <span class="section-number">02</span>
-            <span class="section-title">Employment Details</span>
-            <span class="section-line"></span>
-          </div>
-          <div class="input-group">
-            <label class="input-label" for="department">Department<span class="req">*</span></label>
-            <select class="input-field" id="department" name="department">
-              <option value="" selected disabled>Select department</option>
-              <option>Administration</option>
-              <option>IT</option>
-              <option>Despatch</option>
-              <option>Accounting</option>
-              <option>HR</option>
-              <option>Marketing Sales</option>
-              <option>Customer Service</option>
-            </select>
-            <div class="field-error">Please select a department.</div>
           </div>
         </div>
 
@@ -205,7 +180,7 @@
         <div class="form-success" id="formSuccess" role="status" aria-live="polite"></div>
       </form>
 
-      <p class="helper-text">Already have an account? <a href="#" class="helper-link">Sign In</a></p>
+      <p class="helper-text">Already have an account? <a href="<?= site_url('login') ?>" class="helper-link">Sign in securely</a></p>
     </section>
   </main>
 

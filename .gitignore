@@ -5,6 +5,13 @@
 /writable/logs/*
 /writable/session/*
 /writable/uploads/*
+/writable/chrome-3d-check*/
+/writable/chrome-visual*/
+/home-aligned*.png
+/home-mobile*.png
+/home-visual-check.png
+/product-detail-*-check*.png
+/product-detail-*-final.png
 
 !/writable/cache/index.html
 !/writable/debugbar/index.html

@@ -1,5 +1,3 @@
-  var currentRole = 'customer';
-
   // ---- Carousel: cards alternate front/back, content cycles through 5 slides ----
   var carouselImages = window.SOLAR_CAROUSEL_IMAGES || {};
   var slides = [
@@ -94,37 +92,6 @@
     revealElements.forEach(function(element){ element.classList.add('is-visible'); });
   }
 
-  // ---- Role toggle ----
-  var deptSection = document.getElementById('deptSection');
-  var formTitle = document.getElementById('formTitle');
-  var submitBtn = document.getElementById('submitBtn');
-  var contactNum = document.getElementById('contactNum');
-  var acctNum = document.getElementById('acctNum');
-
-  function renumberSections(){
-    if(currentRole === 'employee'){
-      deptSection.classList.add('show');
-      contactNum.textContent = '03';
-      acctNum.textContent = '04';
-    } else {
-      deptSection.classList.remove('show');
-      contactNum.textContent = '02';
-      acctNum.textContent = '03';
-    }
-  }
-
-  document.querySelectorAll('#roleToggle button').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      document.querySelectorAll('#roleToggle button').forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
-      currentRole = btn.getAttribute('data-role');
-      formTitle.textContent = currentRole === 'employee' ? 'Employee Registration' : 'Customer Registration';
-      submitBtn.textContent = currentRole === 'employee' ? 'Create employee account' : 'Create customer account';
-      renumberSections();
-    });
-  });
-  renumberSections();
-
   // ---- Password eye toggle ----
   document.querySelectorAll('.toggle-pass').forEach(function(btn){
     btn.addEventListener('click', function(){
@@ -165,8 +132,6 @@
     req('lastName');
     req('birthdate');
     req('gender');
-    if(currentRole === 'employee') req('department');
-
     var email = document.getElementById('email');
     var emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
     setInvalid(email, !emailValid);
@@ -199,7 +164,7 @@
   }
 
   // live validation as user types/leaves field
-  ['firstName','lastName','birthdate','gender','department','email','phone','address','username','password','confirmPassword']
+  ['firstName','lastName','birthdate','gender','email','phone','address','username','password','confirmPassword']
     .forEach(function(id){
       var el = document.getElementById(id);
       if(el) el.addEventListener('blur', function(){ validate(false); });
@@ -232,8 +197,6 @@
         lastName: document.getElementById('lastName').value.trim(),
         birthdate: document.getElementById('birthdate').value,
         gender: document.getElementById('gender').value,
-        role: currentRole,
-        department: document.getElementById('department').value,
         email: document.getElementById('email').value.trim(),
         phone: document.getElementById('phone').value.trim(),
         address: document.getElementById('address').value.trim(),
@@ -264,6 +227,6 @@
       success.classList.add('form-error');
     } finally {
       button.disabled = false;
-      button.textContent = currentRole === 'employee' ? 'Create employee account' : 'Create customer account';
+      button.textContent = 'Create customer account';
     }
   });
